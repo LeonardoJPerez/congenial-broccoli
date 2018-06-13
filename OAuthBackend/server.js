@@ -9,9 +9,6 @@ import routes from './src/routes';
 import connection from './src/connection';
 import * as config from './config';
 
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
-
 const internals = {};
 
 internals.start = async function () {

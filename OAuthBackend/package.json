@@ -26,7 +26,9 @@
     "hapi": "^17.5.1",
     "hapi-echo-routes": "^1.0.4",
     "hapi-passport": "0.0.6",
+    "mongoose": "^5.1.5",
     "node-env-file": "^0.1.8",
+    "node-fetch": "^2.1.2",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
     "passport-google-oauth20": "^1.0.0"
