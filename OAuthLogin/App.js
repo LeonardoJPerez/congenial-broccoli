@@ -45,11 +45,16 @@ export default class App extends Component {
     }
   };
 
+  clearUser = () => { 
+        console.log('User logged off.')
+        this.state = null;
+    }
+
   // Handle Login with Facebook button tap
-  loginWithFacebook = () => this.openURL('http://localhost:3000/auth/facebook');
+  loginWithFacebook = () => this.openURL('http://localhost:8888/auth/facebook/callback');
 
   // Handle Login with Google button tap
-  loginWithGoogle = () => this.openURL('http://localhost:3000/auth/google');
+  loginWithGoogle = () => this.openURL('http://localhost:8888/auth/google/callback');
 
   // Open URL in a browser
   openURL = (url) => {
@@ -86,11 +91,11 @@ export default class App extends Component {
                 Welcome Stranger!
               </Text>
               <View style={styles.avatar}>
-                <Icon name="user-circle" size={100} color="rgba(0,0,0,.09)" />
+                <Icon name="user-circle" size={100} color="rgba(0,0,0,.09)" onPress={this.clearUser} />
               </View>
               <Text style={styles.text}>
                 Please log in to continue {'\n'}
-                to the awesomness
+                to the awesomeness
               </Text>
             </View>
         }

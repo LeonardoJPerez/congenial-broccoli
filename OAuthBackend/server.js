@@ -1,71 +1,42 @@
-import express from 'express';
-import passport from 'passport';
-import FacebookStrategy from 'passport-facebook';
-import GoogleStrategy from 'passport-google-oauth20';
+import {Server} from 'hapi';
+import {green} from 'chalk';
 
-// Import Facebook and Google OAuth apps configs
-import { facebook, google } from './config';
+// Plugins
+import Bell from 'bell';
+import EchoRoutes from 'hapi-echo-routes';
 
-// Transform Facebook profile because Facebook and Google profile objects look different
-// and we want to transform them into user objects that have the same set of attributes
-const transformFacebookProfile = (profile) => ({
-  name: profile.name,
-  avatar: profile.picture.data.url,
-});
+import routes from './src/routes';
+import connection from './src/connection';
+import * as config from './config';
 
-// Transform Google profile into user object
-const transformGoogleProfile = (profile) => ({
-  name: profile.displayName,
-  avatar: profile.image.url,
-});
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
 
-// Register Facebook Passport strategy
-passport.use(new FacebookStrategy(facebook,
-  // Gets called when user authorizes access to their profile
-  async (accessToken, refreshToken, profile, done)
-    // Return done callback and pass transformed user object
-    => done(null, transformFacebookProfile(profile._json))
-));
+const internals = {};
 
-// Register Google Passport strategy
-passport.use(new GoogleStrategy(google,
-  async (accessToken, refreshToken, profile, done)
-    => done(null, transformGoogleProfile(profile._json))
-));
+internals.start = async function () {
+    const server = new Server(connection);
+    
+    await server.register([Bell, EchoRoutes]);    
 
-// Serialize user into the sessions
-passport.serializeUser((user, done) => done(null, user));
+    server.auth.strategy('facebook', 'bell', config.facebook);
+    server.auth.strategy('google', 'bell', config.google);
+    server.route(routes);
+    
+    await server.start();   
 
-// Deserialize user from the sessions
-passport.deserializeUser((user, done) => done(null, user));
+    const url = `${server.info.protocol}://${server.info.address}:${server.info.port}`
+    console.log(`${server.settings.app.name} Server started at: ${url}`);    
 
-// Initialize http server
-const app = express();
+    for (let i = 0; i < routes.length; i++) {
+        const route = routes[i];      
+        route.method = route.method === '*' ? ' * ' : route.method;       
+        console.log(` [${green(route.method)}]     ${route.path}`);
+    } 
+}
 
-// Initialize Passport
-app.use(passport.initialize());
-app.use(passport.session());
+if (!module.parent) {
+    internals.start();         
+}
 
-// Set up Facebook auth routes
-app.get('/auth/facebook', passport.authenticate('facebook'));
-app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/auth/facebook' }),
-  // Redirect user back to the mobile app using Linking with a custom protocol OAuthLogin
-  (req, res) => res.redirect('OAuthLogin://login?user=' + JSON.stringify(req.user)));
-
-// Set up Google auth routes
-app.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));
-app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/auth/google' }),
-  (req, res) => res.redirect('OAuthLogin://login?user=' + JSON.stringify(req.user)));
-
-// Launch the server on the port 3000
-const server = app.listen(3000, () => {
-  let { address, port } = server.address();
-
-  if (address == '::'){
-    address = 'localhost'  
-  }
-
-  console.log(`Listening at http://${address}:${port}`);
-});
+export default internals.start;
