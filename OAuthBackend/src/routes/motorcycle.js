@@ -1,40 +1,39 @@
 import Motorcycle from '../models/motorcycle';
-import fetch from 'node-fetch';
+import {getMakes, getModels, decodeVIN} from '../services/nhtsa';
 
- 
-const baseURL                 = "https://vpic.nhtsa.dot.gov/api/"
-const jsonFormat              = "format=json"
-// const modelsEndpointFormat    = "/vehicles/GetModelsForMakeIdYear/makeId/%s/vehicletype/moto?%s"
-// const makeEndpointFormat      = "/vehicles/GetMakesForVehicleType/moto?%s"
-// const decodeVINEndpointFormat = "/vehicles/decodevinvaluesextended/%s?%s&modelyear=%d"
+const ROUTE_GROUP = 'bikes';
+export default[
+    {
+        method : 'GET',
+        path : `/${ROUTE_GROUP}/u/{userid}`, // Returns all motorcycles created by the user.
+        options : {
+            handler: async function (request, h) {
+                let m = new Motorcycle({make: 'Lexus', model: 'IS350', year: 2006});               
+                const res = await getModels(770);
+                console.log(res);
 
-const ROUTE_GROUP = 'bike';
-export default [{
-    method : 'GET',
-    path : `/${ROUTE_GROUP}/u`,
-    options : {         
-        handler: function (request, h) {
-            let m = new Motorcycle({
-                make: 'Lexus',
-                model: 'IS350',
-                year: 2006 
-            });
-
-            console.log(m);
-
-
-            fetch(`${baseURL}/vehicles/GetMakesForVehicleType/moto?${jsonFormat}`)
-                .then( (response) => {
-                    if (response.status >= 400) {
-                        throw new Error("Bad response from server");
-                    }
-                    return response.json();
-                })
-                .then( (makes) => {
-                    console.log(makes);
-                });
-
-            return m;
+                return m;
+            }
+        }
+    }, {
+        method : 'GET',
+        path : `/${ROUTE_GROUP}/makes`,
+        options : {
+            handler: async() => await getMakes()
+        }
+    },
+    {
+        method : 'GET',
+        path : `/${ROUTE_GROUP}/models/{makeid}`,  
+        options : {
+            handler: async(request) => await getModels(encodeURIComponent(request.params.makeid))
+        }
+    },
+    {
+        method : 'GET',
+        path : `/${ROUTE_GROUP}/decode/{vin}/{year}`,  
+        options : {
+            handler: async(request) => await decodeVIN(encodeURIComponent(request.params.vin), encodeURIComponent(request.params.year))
         }
     }
-}];
+];
