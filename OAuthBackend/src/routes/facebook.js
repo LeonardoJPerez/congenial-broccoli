@@ -11,16 +11,25 @@ export default {
                 return 'Authentication failed due to: ' + request.auth.error.message;
             }
 
-            console.log(request.auth);
-            const profile = request.auth.credentials.profile;
-            const facebookProfile = {
-                name: profile.displayName,
-                avatar: profile.raw.picture
-            };
-
-            console.log(facebookProfile);
-
-            return h.redirect('OAuthLogin://login?user=' + JSON.stringify(facebookProfile));;
+            const profile = transformFacebookResponse(request)
+            return h.redirect('OAuthLogin://login?user=' + JSON.stringify(profile));
         }
     }
 };
+
+const transformFacebookResponse = (request) => {
+    const credentials = request.auth.credentials
+    const profile = request.auth.credentials.profile;
+
+    return {
+        avatar: profile.picture.data.url,
+        email: profile.email,
+        expiresIn: credentials.expiresIn,
+        name: profile.name.given_name,
+        familyName: profile.name.family_name,
+        displayName: profile.displayName,
+        provider: credentials.provider,
+        refreshToken: credentials.refreshToken,
+        token: credentials.token
+    };
+}

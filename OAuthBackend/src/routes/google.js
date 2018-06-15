@@ -10,14 +10,26 @@ export default {
             if (!request.auth.isAuthenticated) {
                 return 'Authentication to Google failed due to: ' + request.auth.error.message;
             }
- 
-            const profile = request.auth.credentials.profile;
-            const googleProfile = {
-                name: profile.displayName,
-                avatar: profile.raw.picture
-            };             
 
-            return h.redirect('OAuthLogin://login?user=' + JSON.stringify(googleProfile));
+            const profile = transformGoogleResponse(request)
+            return h.redirect('OAuthLogin://login?user=' + JSON.stringify(profile));
         }
     }
 };
+
+const transformGoogleResponse = (request) => {
+    const credentials = request.auth.credentials
+    const profile = request.auth.credentials.profile;
+
+    return {
+        avatar: profile.raw.picture,
+        email: profile.email,
+        expiresIn: credentials.expiresIn,
+        name: profile.name.given_name,
+        familyName: profile.name.family_name,
+        displayName: profile.displayName,
+        provider: credentials.provider,
+        refreshToken: credentials.refreshToken,
+        token: credentials.token
+    };
+}
