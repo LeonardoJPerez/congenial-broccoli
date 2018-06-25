@@ -8,10 +8,12 @@ import Login from './components/login';
 
 export default class App extends Component {
     render() {
+        const LoginView = Login.UI;
+
         return (
             <Provider store={store}>
                 <View style={styles.container}>
-                    <Login/>
+                    <LoginView />
                 </View>
             </Provider>
         );
