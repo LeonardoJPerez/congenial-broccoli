@@ -2,7 +2,9 @@ import axios from 'axios';
 import axiosMiddleware from 'redux-axios-middleware';
 import {createStore, applyMiddleware} from 'redux';
 
-import Signup from './components/signup';
+import config from './config';
+import rootReducer from './reducers';
 
 const client = axios.create(config);
-export default createStore(Signup.Reducer, applyMiddleware(axiosMiddleware(client)));
+
+export default createStore(rootReducer, applyMiddleware(axiosMiddleware(client)));

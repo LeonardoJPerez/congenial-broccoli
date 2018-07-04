@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import {StyleSheet, Text, View} from 'react-native';
 
 import Avatar from '../avatar';
 
-import actions from './actions';
+import * as actions from './actions';
 
 class Signup extends Component {
-    state = {
-        user: undefined, // user has not logged in yet
-    };
-
     // Set up Linking
     componentDidMount() {
         console.log("Checking Location services");
@@ -19,15 +16,12 @@ class Signup extends Component {
     componentWillUnmount() {};
 
     render() {
-        const {user, changeAvatar} = this.prop;
+        const {user, changeAvatar} = this.props;
 
         return (
             <View style={styles.container}>
                 <View style={styles.content}>
-                    <Avatar 
-                        onClick={changeAvatar} 
-                        image={user} 
-                        name={user.name} />
+                    <Avatar onClick={changeAvatar} image={user.avatar} name={user.name}/>
                 </View>
                 <View style={styles.content}>
                     <Text style={styles.header}>
@@ -83,11 +77,13 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-    return {user: state.user};
+    return {user: state.signup.user};
 };
 
-const mapDispatchToProps = {
-    changeAvatar: actions.changeAvatar
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        changeAvatar: actions.changeAvatar
+    }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);

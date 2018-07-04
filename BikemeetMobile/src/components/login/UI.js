@@ -1,11 +1,18 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {Linking, StyleSheet, Platform, Text, View} from 'react-native';
 import SafariView from 'react-native-safari-view';
 
 import GoogleButton from './googleButton';
 import FacebookButton from './facebookButton';
 
+import {loginSuccess} from './actions';
+
 class Login extends Component {
+    static navigationOptions = {
+        header: null
+    }
     // Set up Linking
     componentDidMount() {
         // Add event listener to handle bikemeet:// URLs
@@ -26,13 +33,25 @@ class Login extends Component {
     };
 
     handleOpenURL = ({url}) => {
-        // Extract stringified user string out of the URL
         const [,
             user_string] = url.match(/user=([^#]+)/);
-        this.setState({
-            // Decode the user string and parse it into JSON
-            user: JSON.parse(decodeURI(user_string))
-        });
+
+        user = JSON.parse(decodeURI(user_string))
+        if (user) {
+            this
+                .props
+                .loginSuccess(user);
+            this
+                .props
+                .navigation
+                .navigate('Signup');
+        } else {
+            const [,
+                error] = url.match(/error=([^#]+)/);
+            this
+                .props
+                .loginFail(error);
+        }
         if (Platform.OS === 'ios') {
             SafariView.dismiss();
         }
@@ -65,21 +84,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    avatar: {
-        margin: 20
-    },
-    avatarImage: {
-        borderRadius: 50,
-        height: 100,
-        width: 100
-    },
     header: {
         fontSize: 20,
         textAlign: 'center',
         margin: 10
     },
     buttons: {
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         flexDirection: 'row',
         margin: 20,
         marginBottom: 30
@@ -90,6 +101,10 @@ const mapStateToProps = state => {
     return {};
 };
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        loginSuccess: loginSuccess
+    }, dispatch);
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

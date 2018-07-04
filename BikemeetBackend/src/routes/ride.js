@@ -1,6 +1,6 @@
 import Ride from '../models/ride'
 
-const ROUTE_GROUP = 'ride';
+const ROUTE_GROUP = 'api/ride';
 
 /*
 Methods
@@ -11,15 +11,17 @@ Methods
 - GetRidesByDate(from, to)
 */
 
-export default [{
-    method : 'GET',
-    path : `/${ROUTE_GROUP}/u`,
-    options : {         
-        handler: function (request, h) {
-            let r = new Ride()
-            
-            console.log(r);
-            return r;
+export default[
+    {
+        method : 'GET',
+        path : `/${ROUTE_GROUP}/u`,
+        options : {
+            handler: function (request, h) {
+                let r = new Ride()
+
+                console.log(r);
+                return r;
+            }
         }
     }
-}];
+];

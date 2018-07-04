@@ -6,21 +6,24 @@ const CALLBACK_URL = 'http://localhost:8888/auth/facebook/callback';
 
 const iconStyles = {
     borderRadius: 10,
+    justifyContent: 'center',
+    flexDirection: 'row',
     iconStyle: {
         paddingVertical: 5
-    }
+    },
+    width: 150
 };
 
-export default facebookLogin = (props) => {    
+export default facebookLogin = (props) => {
     return (
         <Icon.Button
             name="facebook"
             backgroundColor="#3b5998"
             onPress={() => {
-                openURL(CALLBACK_URL);
-            }}
+            openURL(CALLBACK_URL);
+        }}
             {...iconStyles}>
-            Login with Facebook
+            Facebook
         </Icon.Button>
     );
 }

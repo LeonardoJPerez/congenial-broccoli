@@ -8,7 +8,8 @@ export default {
         },
         handler: function (request, h) {
             if (!request.auth.isAuthenticated) {
-                return 'Authentication failed due to: ' + request.auth.error.message;
+                // TODO: Log error from request.auth.error.message;
+                return h.redirect('bikemeet://login?user=');
             }
 
             const profile = transformFacebookResponse(request)

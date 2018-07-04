@@ -6,9 +6,12 @@ const CALLBACK_URL = 'http://localhost:8888/auth/google/callback';
 
 const iconStyles = {
     borderRadius: 10,
+    justifyContent: 'center',
+    flexDirection: 'row',
     iconStyle: {
         paddingVertical: 5
-    }
+    },
+    width: 150
 };
 
 export default googleLogin = (props) => {
@@ -17,10 +20,10 @@ export default googleLogin = (props) => {
             name="google"
             backgroundColor="#DD4B39"
             onPress={() => {
-                openURL(CALLBACK_URL);
-            }}
+            openURL(CALLBACK_URL);
+        }}
             {...iconStyles}>
-            Or with Google
+            Google
         </Icon.Button>
     );
 }

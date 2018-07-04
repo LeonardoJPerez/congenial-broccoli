@@ -8,10 +8,11 @@ export default {
         },
         handler: function (request, h) {
             if (!request.auth.isAuthenticated) {
-                return 'Authentication to Google failed due to: ' + request.auth.error.message;
+                // TODO: Log error from request.auth.error.message;
+                return h.redirect('bikemeet://login?user=');
             }
 
-            const profile = transformGoogleResponse(request)
+            const profile = transformGoogleResponse(request);
             return h.redirect('bikemeet://login?user=' + JSON.stringify(profile));
         }
     }

@@ -1,21 +1,21 @@
 import {Linking, Platform} from 'react-native';
 import SafariView from 'react-native-safari-view';
 
-import {INIT, AVATAR_CHANGE} from './reducer';
+import {TOAST_DISPLAY, SIGNUP_FORM} from '../actionTypes';
 
-export function login(user) {
+export function loginSuccess(user) {
     return {
-        type: INIT,
+        type: SIGNUP_FORM,
         payload: {
-            request: {
-                url: `/users/${user}/repos`
-            }
+            user
         }
     };
 }
 
-export function loginSuccess() {
-    return {type: AVATAR_CHANGE, payload: {}};
+export function loginFail(message) {
+    return {type: TOAST_DISPLAY, payload: {
+            message
+        }};
 }
 
 export function openURL(url) {

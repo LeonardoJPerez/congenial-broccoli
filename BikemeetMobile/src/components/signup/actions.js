@@ -1,20 +1,5 @@
-import {INIT, AVATAR_CHANGE} from './reducer';
+import {SIGNUP_AVATAR_CHANGE} from './reducer';
 
-export function initialize(user) {
-    return {
-        type: INIT,
-        payload: {
-            request: {
-                url: `/users/${user}/repos`
-            }
-        }
-    };
-}
-
-export function changeAvatar(){    
-    return {
-        type: AVATAR_CHANGE,
-        payload: {             
-        }
-    };
+export function changeAvatar() {
+    return {type: SIGNUP_AVATAR_CHANGE, payload: {}};
 }

@@ -20,11 +20,12 @@
   "dependencies": {
     "bell": "^9.3.1",
     "bluebird": "^3.5.1",
+    "boom": "^7.2.0",
     "chalk": "^2.4.1",
-    "cookie-session": "^2.0.0-beta.3",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "hapi": "^17.5.1",
+    "hapi-auth-cookie": "^9.0.0",
     "hapi-echo-routes": "^1.0.4",
     "hapi-passport": "0.0.6",
     "lodash": "^4.17.10",
