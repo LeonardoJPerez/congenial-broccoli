@@ -1,11 +1,11 @@
 {
-  "name": "Bikemeet",
+  "name": "bikemeet",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "ios-start": "react-native run-ios;"
+    "ios": "react-native run-ios;"
   },
   "dependencies": {
     "axios": "^0.18.0",
