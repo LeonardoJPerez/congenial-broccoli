@@ -47,10 +47,7 @@ export default Motorcycle = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-            // This is a reference to another model
             model: Rider,
-
-            // This is the column name of the referenced model
             key: 'id',
         }
     },
