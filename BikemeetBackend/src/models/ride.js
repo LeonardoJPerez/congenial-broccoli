@@ -61,6 +61,12 @@ export default Ride = {
         defaultValue: RideType.Any
     },
 
+    rsvpd: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+    },
+
     skillLevel: {
         type: Sequelize.INTEGER,
         allowNull: false,
