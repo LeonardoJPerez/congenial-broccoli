@@ -1,4 +1,5 @@
 export const SkillLevel = Object.freeze({
+    'Any': 0,
     'Beginner': 1, 
     'Novice': 2, 
     'Intermediate': 3, 
@@ -7,6 +8,7 @@ export const SkillLevel = Object.freeze({
 });
 
 export const RidingStyle = Object.freeze({
+    'Any': 0,
     'AdventureRiding': 1,
     'BeginnerFriendly': 2,
     'Biker': 3,
@@ -22,6 +24,7 @@ export const RidingStyle = Object.freeze({
 });
 
 export const RideType = Object.freeze({
+    'Any': 0,
     'Adventure': 1,
     'CafeRacer': 2,
     'Cruiser': 3,
