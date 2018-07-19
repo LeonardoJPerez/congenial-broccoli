@@ -5,7 +5,7 @@ import {
 } from '../enums';
 
 const definition = {
-    identifier: {
+    id: {
         type: Sequelize.INTEGER,
         primaryKey: true
     },
@@ -18,7 +18,7 @@ const definition = {
 
 export default (sequelize) => {
     const Rider = sequelize.define('rider', definition);
-    Rider.associate = (models) => {
+    Rider.associate = function (models) {
         // associations can be defined here
     };
 

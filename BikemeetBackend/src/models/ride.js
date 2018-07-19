@@ -5,16 +5,12 @@ import {
 } from '../enums';
 
 const definition = {
-    identifier: {
+    id: {
         type: Sequelize.UUID,
         primaryKey: true
     },
 
     chatRoomID: {
-        type: Sequelize.INTEGER,
-    },
-
-    creatorID: {
         type: Sequelize.INTEGER,
     },
 
@@ -47,13 +43,12 @@ const definition = {
 
     ownerID: {
         type: Sequelize.INTEGER,
-        allowNull: false,
     },
 
     rideType: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        defaultValue: RideType.Any
+        defaultValue: RideType.Any,
     },
 
     rsvpd: {
@@ -76,8 +71,10 @@ const definition = {
 
 export default (sequelize) => {
     const Ride = sequelize.define('ride', definition);
-    Ride.associate = (models) => {
-        // associations can be defined here
+    Ride.associate = function (models) {
+        Ride.belongsTo(models.rider, {
+            as: 'creator'
+        });
     };
 
     return Ride;

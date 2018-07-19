@@ -39,11 +39,13 @@ const init = () => {
             internal[model.name] = model;
         });
 
-    Object.keys(internal).forEach(modelName => {
-        if (internal[modelName].associate) {
-            internal[modelName].associate(internal);
-        }
-    });
+    Object
+        .keys(internal)
+        .forEach(modelName => {
+            if (internal[modelName].associate) {
+                internal[modelName].associate(internal);
+            }
+        });
 
     internal.sequelize = sequelize;
     internal.Sequelize = Sequelize;
