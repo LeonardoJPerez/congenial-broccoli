@@ -38,6 +38,7 @@ const definition = {
 
     isPrivate: {
         type: Sequelize.BOOLEAN,
+        allowNull: false,
         defaultValue: false,
     },
 
