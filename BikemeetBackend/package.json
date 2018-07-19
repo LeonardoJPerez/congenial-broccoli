@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dbping": "node node_modules/babel-cli/bin/babel-node.js testConnection.js",
+    "dbping": "node node_modules/babel-cli/bin/babel-node.js src/db/connectionTest.js",
+    "dbsync": "node node_modules/babel-cli/bin/babel-node.js src/db/sync.js",
     "start": "node_modules/nodemon/bin/nodemon.js -- node_modules/babel-cli/bin/babel-node.js server.js",
     "debug": "node --inspect node_modules/babel-cli/bin/babel-node.js server.js"
   },

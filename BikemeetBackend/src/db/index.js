@@ -2,23 +2,29 @@ import Sequelize from 'sequelize';
 
 require('dotenv').config();
 
-const u = process.env.DB_USER;
-const p = process.env.DB_PASS;
-const n = process.env.DB_NAME;
+export default function init(dbname, dbconfig = {}) {
+    const n = dbname || process.env.DB_NAME;
 
-const sequelize = new Sequelize(n, u, p, {
-    host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 3306,
+    console.log(n)
 
-    dialect: 'mysql',
-    operatorsAliases: false,
+    const u = dbconfig.user || process.env.DB_USER;
+    const p = dbconfig.pass || process.env.DB_PASS;
 
-    pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
-    }
-});
+    const envHost = process.env.DB_HOST || 'localhost';
+    const envPort = process.env.DB_PORT || 3306;
 
-export default sequelize;
+    return new Sequelize(n, u, p, {
+        host: dbconfig.host || envHost,
+        port: dbconfig.port || envPort,
+
+        dialect: 'mysql',
+        operatorsAliases: false,
+
+        pool: {
+            max: 10,
+            min: 0,
+            acquire: 30000,
+            idle: 10000
+        }
+    });
+}
