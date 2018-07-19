@@ -1,8 +1,6 @@
 import db from '.';
 
-const conn = db();
-
-conn
+db.sequelize
     .authenticate()
     .then(() => {
         console.log('Connection has been established successfully.');

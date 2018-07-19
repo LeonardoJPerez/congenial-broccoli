@@ -1,6 +1,7 @@
 import db from '.';
 
-db().sequelize.sync()
+db.sequelize
+    .sync()
     .then(() => {
         console.log('`bikemeet` schema tables successfully created/updated.');
         return process.exit(0);

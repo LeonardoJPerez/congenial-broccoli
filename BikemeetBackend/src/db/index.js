@@ -9,8 +9,8 @@ import {
 
 require('dotenv').config();
 
-export default function init() {
-    const db = {};
+const init = () => {
+    const internal = {};
     const connString = process.env.MAIN_DB;
     if (!connString) {
         console.log('Database connection string missing.')
@@ -36,17 +36,24 @@ export default function init() {
         })
         .forEach(file => {
             const model = sequelize['import'](join(modelsRoot, file));
-            db[model.name] = model;
+            internal[model.name] = model;
         });
 
-    Object.keys(db).forEach(modelName => {
-        if (db[modelName].associate) {
-            db[modelName].associate(db);
+    Object.keys(internal).forEach(modelName => {
+        if (internal[modelName].associate) {
+            internal[modelName].associate(internal);
         }
     });
 
-    db.sequelize = sequelize;
-    db.Sequelize = Sequelize;
+    internal.sequelize = sequelize;
+    internal.Sequelize = Sequelize;
 
-    return db;
+    return internal;
 }
+
+let db;
+if (!db) {
+    db = init();
+}
+
+export default db;
