@@ -1,22 +1,22 @@
 import Sequelize from 'sequelize';
+import {
+    basename as _basename,
+    join
+} from 'path';
+import {
+    readdirSync
+} from 'fs';
 
 require('dotenv').config();
 
-export default function init(dbname, dbconfig = {}) {
-    const n = dbname || process.env.DB_NAME;
+export default function init() {
+    const db = {};
+    const connString = process.env.MAIN_DB;
+    if (!connString) {
+        console.log('Database connection string missing.')
+    }
 
-    console.log(n)
-
-    const u = dbconfig.user || process.env.DB_USER;
-    const p = dbconfig.pass || process.env.DB_PASS;
-
-    const envHost = process.env.DB_HOST || 'localhost';
-    const envPort = process.env.DB_PORT || 3306;
-
-    return new Sequelize(n, u, p, {
-        host: dbconfig.host || envHost,
-        port: dbconfig.port || envPort,
-
+    const sequelize = new Sequelize(connString, {
         dialect: 'mysql',
         operatorsAliases: false,
 
@@ -27,4 +27,26 @@ export default function init(dbname, dbconfig = {}) {
             idle: 10000
         }
     });
+
+    const modelsRoot = `${process.cwd()}/src/models`;
+    readdirSync(modelsRoot)
+        .filter(file => {
+            const basename = _basename(__filename);
+            return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
+        })
+        .forEach(file => {
+            const model = sequelize['import'](join(modelsRoot, file));
+            db[model.name] = model;
+        });
+
+    Object.keys(db).forEach(modelName => {
+        if (db[modelName].associate) {
+            db[modelName].associate(db);
+        }
+    });
+
+    db.sequelize = sequelize;
+    db.Sequelize = Sequelize;
+
+    return db;
 }

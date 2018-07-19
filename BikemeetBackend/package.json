@@ -8,7 +8,7 @@
     "dbping": "node node_modules/babel-cli/bin/babel-node.js src/db/connectionTest.js",
     "dbsync": "node node_modules/babel-cli/bin/babel-node.js src/db/sync.js",
     "start": "node_modules/nodemon/bin/nodemon.js -- node_modules/babel-cli/bin/babel-node.js server.js",
-    "debug": "node --inspect node_modules/babel-cli/bin/babel-node.js server.js"
+    "debug": "node --inspect node_modules/babel-cli/bin/babel-node.js server.js"    
   },
   "author": "",
   "license": "ISC",
@@ -17,7 +17,8 @@
     "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
-    "nodemon": "^1.17.5"
+    "nodemon": "^1.17.5",
+    "sequelize-cli": "^4.0.0"
   },
   "dependencies": {
     "bell": "^9.3.1",
@@ -31,7 +32,7 @@
     "hapi-echo-routes": "^1.0.4",
     "hapi-passport": "0.0.6",
     "lodash": "^4.17.10",
-    "mongoose": "^5.1.5",
+    
     "mysql2": "^1.5.3",
     "node-env-file": "^0.1.8",
     "node-fetch": "^2.1.2",
@@ -39,6 +40,6 @@
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
     "passport-google-oauth20": "^1.0.0",
-    "sequelize": "^4.38.0"
+    "sequelize": "^4.38.0"  
   }
 }

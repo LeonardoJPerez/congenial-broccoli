@@ -2,9 +2,9 @@ import Sequelize from 'sequelize';
 import {
     SkillLevel,
     RideType
-} from './enums';
+} from '../enums';
 
-export default Rider = {
+const definition = {
     identifier: {
         type: Sequelize.INTEGER,
         primaryKey: true
@@ -14,4 +14,13 @@ export default Rider = {
         type: Sequelize.STRING,
         allowNull: false
     },
+};
+
+export default (sequelize) => {
+    const Rider = sequelize.define('rider', definition);
+    Rider.associate = (models) => {
+        // associations can be defined here
+    };
+
+    return Rider;
 };

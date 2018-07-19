@@ -1,16 +1,25 @@
-//create the sequelize instance, omitting the database-name arg
-import db from './index';
+import Sequelize from 'sequelize';
 
-const conn = db('');
+const sequelize = new Sequelize(connString, {
+    dialect: 'mysql',
+    operatorsAliases: false,
 
-conn
+    pool: {
+        max: 10,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+    }
+});
+
+database.sequelize
     .query('CREATE DATABASE IF NOT EXISTS `bikemeet`;')
     .then(data => {
-        console.log('`bikemeet` schema successfully created.');
-
-        // Sync all models that aren't already in the database
-        conn.sync();
-        return process.exit(0);
+        database.sequelize.sync()
+            .then(() => {
+                console.log('`bikemeet` schema successfully created/updated.');
+                return process.exit(0);
+            });
     })
     .catch(err => {
         console.error('Unable to create `bikemeet` schema:', err);

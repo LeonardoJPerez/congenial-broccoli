@@ -2,9 +2,9 @@ import Sequelize from 'sequelize';
 import {
     SkillLevel,
     RideType
-} from './enums';
+} from '../enums';
 
-export default Motorcycle = {
+const definition = {
     identifier: {
         type: Sequelize.INTEGER,
         primaryKey: true
@@ -45,11 +45,7 @@ export default Motorcycle = {
 
     riderID: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-            model: Rider,
-            key: 'id',
-        }
+        allowNull: false
     },
 
     rideType: {
@@ -76,4 +72,13 @@ export default Motorcycle = {
         type: Sequelize.INTEGER,
         allowNull: false
     },
+};
+
+export default (sequelize) => {
+    const Motorcycle = sequelize.define('motorcycle', definition);
+    Motorcycle.associate = (models) => {
+        // associations can be defined here
+    };
+
+    return Motorcycle;
 };

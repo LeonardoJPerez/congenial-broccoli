@@ -2,10 +2,9 @@ import Sequelize from 'sequelize';
 import {
     SkillLevel,
     RideType
-} from './enums';
-import Rider from './rider';
+} from '../enums';
 
-export default Ride = {
+const definition = {
     identifier: {
         type: Sequelize.UUID,
         primaryKey: true
@@ -49,10 +48,6 @@ export default Ride = {
     ownerID: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-            model: Rider,
-            key: 'id',
-        }
     },
 
     rideType: {
@@ -78,3 +73,12 @@ export default Ride = {
         allowNull: false
     },
 }
+
+export default (sequelize) => {
+    const Ride = sequelize.define('ride', definition);
+    Ride.associate = (models) => {
+        // associations can be defined here
+    };
+
+    return Ride;
+};
