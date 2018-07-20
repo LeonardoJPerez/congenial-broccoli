@@ -1,27 +1,23 @@
 import db from '../db';
 import faker from 'faker';
 
-import Ride from '../models/ride';
-
-
+// Getters
 export async function GetRidesByLocation(startLocation) {
-    const aRide = Ride.build({
+    const aRide = db.ride.build({
         title: faker.name.findName(),
         description: 'woot woot. this will make me a rich man',
     });
 
-    console.log(aRide);
-    await aRide.save();
+    //const res = await aRide.save();
 
     const rides = await db.ride.findAll({
         where: {
-            title: aRide.title
+            title: 'Laney Weber'
         }
     });
 
     return rides;
 }
-
 
 export function GetRidesStartingBy(from, to) {
 

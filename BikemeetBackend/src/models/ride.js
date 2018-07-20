@@ -1,4 +1,6 @@
 import Sequelize from 'sequelize';
+import uuidv4 from 'uuid/v4';
+
 import {
     SkillLevel,
     RideType
@@ -7,7 +9,8 @@ import {
 const definition = {
     id: {
         type: Sequelize.UUID,
-        primaryKey: true
+        primaryKey: true,
+        defaultValue: uuidv4()
     },
 
     chatRoomID: {
@@ -22,12 +25,13 @@ const definition = {
     distance: {
         type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: '0'
+        defaultValue: ''
     },
 
     duration: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        defaultValue: ''
     },
 
     eventDate: {
