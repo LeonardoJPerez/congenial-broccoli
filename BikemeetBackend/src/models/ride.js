@@ -6,7 +6,7 @@ import {
     RideType
 } from '../enums';
 
-const definition = {
+export const definition = {
     id: {
         type: Sequelize.UUID,
         primaryKey: true,
