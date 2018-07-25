@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 import {
-    SkillLevel,
+
     RideType
 } from '../enums';
 
@@ -45,7 +45,8 @@ export const definition = {
 
     rideType: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        defaultValue: RideType.Any
     },
 
     thumbnail: {
@@ -71,7 +72,7 @@ export const definition = {
 
 export default (sequelize) => {
     const Motorcycle = sequelize.define('motorcycle', definition);
-    Motorcycle.associate = function (models) {      
+    Motorcycle.associate = function (models) {
         Motorcycle.belongsTo(models.rider);
     };
 

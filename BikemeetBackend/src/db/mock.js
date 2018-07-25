@@ -1,4 +1,4 @@
-import SequelizeMocked from 'sequelize-mock';
+import SequelizeMock from 'sequelize-mock';
 import {
     basename as _basename,
     join
@@ -12,7 +12,7 @@ require('dotenv').config();
 const init = () => {
     const internal = {};
     const connString = process.env.MAIN_DB;
-    const sequelize = new SequelizeMocked();
+    const sequelize = new SequelizeMock();
 
     const mocksRoot = `${process.cwd()}/src/models/mocks`;
     readdirSync(mocksRoot)
@@ -21,7 +21,7 @@ const init = () => {
             return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
         })
         .forEach(file => {
-            const model = require(join(mocksRoot, file));
+            const model = require(join(mocksRoot, file)).default;
             internal[model.name] = model;
         });
 

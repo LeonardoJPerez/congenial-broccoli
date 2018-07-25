@@ -1,8 +1,4 @@
 import Sequelize from 'sequelize';
-import {
-    SkillLevel,
-    RideType
-} from '../enums';
 
 export const definition = {
     id: {

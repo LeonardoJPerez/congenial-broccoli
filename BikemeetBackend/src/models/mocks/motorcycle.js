@@ -3,4 +3,5 @@ import {
     definition
 } from '../motorcycle';
 
-export default motorcycleMock = new SequelizeMock().define('motorcycle', definition);
+const dbMock = new SequelizeMock();
+export default dbMock.define('motorcycle', definition);
