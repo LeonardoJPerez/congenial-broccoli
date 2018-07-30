@@ -20,6 +20,12 @@ const init = () => {
         dialect: 'mysql',
         operatorsAliases: false,
 
+        define: {
+            charset: 'utf8',
+            collate: 'utf8_general_ci',
+            timestamps: true
+        },
+
         pool: {
             max: 10,
             min: 0,

@@ -1,7 +1,6 @@
 import {
     Op
-} from 'sequelize'
-import faker from 'faker';
+} from 'sequelize';
 
 export default (dbContext) => {
     return {
